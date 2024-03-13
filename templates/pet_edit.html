@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{form.name}}</h1>
+
+<ul>
+
+    <li>
+        {{form.species}}
+    </li>
+    {% if form.photo_url %}
+    <li>
+        <dir>
+            <img src="{{form.photo_url}}">
+        </dir>
+    </li>
+    {% endif %}
+
+    {% if form.age %}
+    <li>
+        {{form.age}}
+    </li>
+    {% endif %}
+</ul>
+
+<form method="POST">
+    {{ form.hidden-tag() }}
+    {% for field in form 
+        if field.widget.input_type != 'hidden' %}
+
+    <p>
+        {{field.label}}
+        {{field}}
+    </p>
+    {% endfor %}
+    
+    <button>Save</button>
+</form>
+{% endblock %}
