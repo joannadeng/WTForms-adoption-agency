@@ -15,6 +15,9 @@ debug=DebugToolbarExtension(app)
 
 connect_db(app)
 
+with app.app_context():
+    db.create_all()
+
 @app.route('/')
 def list_pets():
     pets = db.session.query(Pet.name, Pet.photo_url, Pet.available).all()
@@ -37,23 +40,25 @@ def add_pet_form():
         return redirect('/')
 
     else:
-        return render_template("add_pet_form",form=form)
+        return render_template("add_pet_form.html",form=form)
 
 @app.route('/<int:pet_id>',methods=["GET","POST"])
 def details_form(pet_id):
+    """edit pet"""
     pet = Pet.query.get_or_404(pet_id)
     form = EditPetForm(obj=pet)
 
 
-    if form.validate_on_submit:
+    if form.validate_on_submit():
         pet.photo_url = form.photo_url.data
         pet.notes = form.notes.data
         pet.available = form.available.data 
 
-        db.session.add(pet)
-        db.session.submit()
+        # db.session.add(pet)
+        db.session.commit()
         return redirect('/')
 
     else:
-        return render_template("pet_edit.html", form=form)
+        return render_template("pet_edit.html", form=form, pet=pet)
+
 
