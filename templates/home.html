@@ -4,7 +4,7 @@
 
 <h1>Pets</h1>
 {% for pet in pets %}
-<div>
+<div style="display: flex;">
     {% if pet.photo_url %}
     <div>  
     <img src="{{pet.photo_url}}"  width="250" height="180">

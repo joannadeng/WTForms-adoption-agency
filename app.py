@@ -20,7 +20,7 @@ with app.app_context():
 
 @app.route('/')
 def list_pets():
-    pets = db.session.query(Pet.name, Pet.photo_url, Pet.available).all()
+    pets = db.session.query(Pet.id, Pet.name, Pet.photo_url, Pet.available).all()
     return render_template("home.html",pets=pets)
 
 @app.route('/add',methods=["GET","POST"])
